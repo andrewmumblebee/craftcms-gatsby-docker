@@ -1,0 +1,6 @@
+[submodule "craftcms"]
+	path = craftcms
+	url = https://github.com/andrewmumblebee/headless-craftcms
+[submodule "gatsby"]
+	path = gatsby
+	url = https://github.com/andrewmumblebee/gatsby-craftcms-starter-v2
