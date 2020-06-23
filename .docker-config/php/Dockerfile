@@ -68,7 +68,7 @@ COPY --chown=www-data:www-data ./craftcms/templates /var/www/html/templates
 COPY --chown=www-data:www-data ./craftcms/web /var/www/html/web
 COPY --chown=www-data:www-data ./craftcms/craft /var/www/html/craft
 
-COPY ./.docker-config/craft/scripts /scripts
+COPY ./.docker-config/php/scripts /scripts
 RUN chown -R www-data:www-data /scripts \
         && chmod -R +x /scripts
 
