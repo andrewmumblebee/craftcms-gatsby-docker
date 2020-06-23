@@ -57,16 +57,16 @@ RUN mkdir -p /var/www/html/storage/rebrand && \
         touch /var/www/html/composer.json && \
         chown -R www-data:www-data /var/www/html
 
-COPY --chown=www-data:www-data ./backend/composer.json /var/www/html/composer.json
+COPY --chown=www-data:www-data ./craftcms/composer.json /var/www/html/composer.json
 RUN composer install -d /var/www/html/ && \
         chown -R www-data:www-data /var/www/html/vendor && \
         chown -R www-data:www-data /var/www/html/composer.lock
 
-COPY --chown=www-data:www-data ./backend/config /var/www/html/config
-COPY --chown=www-data:www-data ./backend/modules /var/www/html/modules
-COPY --chown=www-data:www-data ./backend/templates /var/www/html/templates
-COPY --chown=www-data:www-data ./backend/web /var/www/html/web
-COPY --chown=www-data:www-data ./backend/craft /var/www/html/craft
+COPY --chown=www-data:www-data ./craftcms/config /var/www/html/config
+COPY --chown=www-data:www-data ./craftcms/modules /var/www/html/modules
+COPY --chown=www-data:www-data ./craftcms/templates /var/www/html/templates
+COPY --chown=www-data:www-data ./craftcms/web /var/www/html/web
+COPY --chown=www-data:www-data ./craftcms/craft /var/www/html/craft
 
 COPY ./.docker-config/craft/scripts /scripts
 RUN chown -R www-data:www-data /scripts \
