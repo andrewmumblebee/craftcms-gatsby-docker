@@ -8,6 +8,10 @@ trigger:
 resources:
 - repo: self
 
+steps:
+- checkout: self
+  submodules: true
+
 variables:
 
   # Container registry service connection established during pipeline creation
@@ -20,7 +24,6 @@ variables:
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  
 
 stages:
 - stage: Build
