@@ -68,37 +68,43 @@ stages:
     
     - upload: manifests
       artifact: manifests
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/manifests'
+        ArtifactName: 'manifests'
+        publishLocation: 'Container'
 
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
 
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'andrewmumblebeecraftcmsgatsbydocker.default'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+# - stage: Deploy
+#   displayName: Deploy stage
+#   dependsOn: Build
+
+#   jobs:
+#   - deployment: Deploy
+#     displayName: Deploy
+#     pool:
+#       vmImage: $(vmImageName)
+#     environment: 'andrewmumblebeecraftcmsgatsbydocker.default'
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: KubernetesManifest@0
+#             displayName: Create imagePullSecret
+#             inputs:
+#               action: createSecret
+#               secretName: $(imagePullSecret)
+#               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
               
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+#           - task: KubernetesManifest@0
+#             displayName: Deploy to Kubernetes cluster
+#             inputs:
+#               action: deploy
+#               manifests: |
+#                 $(Pipeline.Workspace)/manifests/deployment.yml
+#                 $(Pipeline.Workspace)/manifests/service.yml
+#               imagePullSecrets: |
+#                 $(imagePullSecret)
+#               containers: |
+#                 $(containerRegistry)/$(imageRepository):$(tag)
 
