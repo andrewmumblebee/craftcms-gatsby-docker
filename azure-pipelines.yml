@@ -8,9 +8,6 @@ trigger:
 resources:
 - repo: self
 
-steps:
-- checkout: self
-  submodules: true
 
 variables:
 
