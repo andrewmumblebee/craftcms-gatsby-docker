@@ -31,16 +31,41 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
+    - task: DockerCompose@0
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: '[EA] Prod - Commercial Services(cd375485-c3c1-4a07-b798-0ce55dd52d1b)'
+        azureContainerRegistry: '{"loginServer":"squaredupdotcomcr.azurecr.io", "id" : "/subscriptions/cd375485-c3c1-4a07-b798-0ce55dd52d1b/resourceGroups/squaredupdotcom-rg/providers/Microsoft.ContainerRegistry/registries/squaredupdotcomCR"}'
+        dockerComposeFile: '**/docker-compose.prod.yml'
+        dockerComposeFileArgs: |
+          CRAFTQL_URL=http://nginx/api
+          CRAFTQL_API_KEY=O5JmEH4-ZMSEbq_t9s3KIJ9v8Lht0q-M
+          CRAFTCMS_EMAIL=andrew.harris@squaredup.co
+          CRAFTCMS_USERNAME=admin
+          CRAFTCMS_PASSWORD=super-secret-password
+          CRAFTCMS_SITENAME=TestSite
+        action: 'Build services'
+        includeSourceTags: true
+        includeLatestTag: true
+        additionalImageTags: |
           $(tag)
-          
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: '[EA] Prod - Commercial Services(cd375485-c3c1-4a07-b798-0ce55dd52d1b)'
+        azureContainerRegistry: '{"loginServer":"squaredupdotcomcr.azurecr.io", "id" : "/subscriptions/cd375485-c3c1-4a07-b798-0ce55dd52d1b/resourceGroups/squaredupdotcom-rg/providers/Microsoft.ContainerRegistry/registries/squaredupdotcomCR"}'
+        dockerComposeFile: '**/docker-compose.prod.yml'
+        dockerComposeFileArgs: |
+          CRAFTQL_URL=http://nginx/api
+          CRAFTQL_API_KEY=O5JmEH4-ZMSEbq_t9s3KIJ9v8Lht0q-M
+          CRAFTCMS_EMAIL=andrew.harris@squaredup.co
+          CRAFTCMS_USERNAME=admin
+          CRAFTCMS_PASSWORD=super-secret-password
+          CRAFTCMS_SITENAME=TestSite
+        action: 'Push services'
+        additionalImageTags: |
+          $(tag)
+    
     - upload: manifests
       artifact: manifests
 
