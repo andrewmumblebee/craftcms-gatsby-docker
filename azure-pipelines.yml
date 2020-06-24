@@ -14,7 +14,7 @@ variables:
   dockerRegistryServiceConnection: 'e6110213-ee87-4e80-930f-5e8e944ff1b8'
   imageRepository: 'andrewmumblebeecraftcmsgatsbydocker'
   containerRegistry: 'squaredupdotcomcr.azurecr.io'
-  dockerfilePath: '**/**/Dockerfile'
+  dockerfilePath: '.docker-config/**/**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'squaredupdotcomcrb2a2-auth'
 
