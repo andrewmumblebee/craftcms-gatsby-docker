@@ -15,7 +15,7 @@ RUN npm install -g gatsby-cli nodemon
 # Clean builds
 WORKDIR /app
 RUN rm node_modules -rf
-COPY ./frontend/package.json .
-COPY ./frontend/yarn.lock .
+COPY ./gatsby/package.json .
+COPY ./gatsby/yarn.lock .
 RUN yarn cache clean && yarn install
 CMD ["yarn", "develop-docker", "-H", "0.0.0.0", "-p", "80"]
